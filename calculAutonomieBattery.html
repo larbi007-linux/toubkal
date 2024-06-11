@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Battery Life Calculator</title>
+    <style>
+        /* styles.css */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+        }
+
+        #result p {
+            margin: 0;
+        }
+
+        #batteryLife {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Calculateur de Durée de Fonctionnement d'une Batterie</h1>
+        <form id="batteryForm">
+            <div class="input-group">
+                <label for="batteryCapacity">Capacité de la Batterie (Ah) :</label>
+                <input type="number" id="batteryCapacity" name="batteryCapacity" step="0.1" required>
+            </div>
+            <div class="input-group">
+                <label for="currentDraw">Consommation de Courant (A) :</label>
+                <input type="number" id="currentDraw" name="currentDraw" step="0.1" required>
+            </div>
+            <button type="button" onclick="calculateBatteryLife()">Calculer</button>
+        </form>
+        <div id="result">
+            <p>La durée de fonctionnement estimée est de : <span id="batteryLife">0</span> heures</p>
+        </div>
+    </div>
+    <script>
+        function calculateBatteryLife() {
+            const batteryCapacity = parseFloat(document.getElementById('batteryCapacity').value);
+            const currentDraw = parseFloat(document.getElementById('currentDraw').value);
+
+            if (isNaN(batteryCapacity) || isNaN(currentDraw)) {
+                alert('Veuillez entrer des nombres valides.');
+                return;
+            }
+
+            if (currentDraw <= 0) {
+                alert('La consommation de courant doit être supérieure à zéro.');
+                return;
+            }
+
+            // Calcul de la durée de fonctionnement
+            let batteryLife = batteryCapacity / currentDraw;
+
+            // Arrondir à la fraction la plus proche (0, 0.25, 0.5, 0.75)
+            const quarterHour = 0.25;
+            batteryLife = Math.round(batteryLife / quarterHour) * quarterHour;
+
+            // Affichage du résultat
+            document.getElementById('batteryLife').innerText = batteryLife.toFixed(2);
+        }
+    </script>
+</body>
+
+</html>
